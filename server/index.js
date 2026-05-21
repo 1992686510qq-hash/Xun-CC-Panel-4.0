@@ -63,9 +63,10 @@ var server = http.createServer(function(req, res) {
       return;
     }
 
-    // QR code images
+    // QR code images (优先 assets/ 目录，兼容根目录)
     if (req.url === "/qr-wechat.png") {
-      var qrWx = path.join(path.dirname(shared.HTML_FILE), "qr-wechat.png");
+      var qrWx = path.join(path.dirname(shared.HTML_FILE), "assets", "qr-wechat.png");
+      if (!fs.existsSync(qrWx)) qrWx = path.join(path.dirname(shared.HTML_FILE), "qr-wechat.png");
       if (fs.existsSync(qrWx)) {
         res.writeHead(200, {"Content-Type": "image/png"});
         res.end(fs.readFileSync(qrWx));
@@ -73,7 +74,8 @@ var server = http.createServer(function(req, res) {
       return;
     }
     if (req.url === "/qr-alipay.jpg") {
-      var qrAli = path.join(path.dirname(shared.HTML_FILE), "qr-alipay.jpg");
+      var qrAli = path.join(path.dirname(shared.HTML_FILE), "assets", "qr-alipay.jpg");
+      if (!fs.existsSync(qrAli)) qrAli = path.join(path.dirname(shared.HTML_FILE), "qr-alipay.jpg");
       if (fs.existsSync(qrAli)) {
         res.writeHead(200, {"Content-Type": "image/jpeg"});
         res.end(fs.readFileSync(qrAli));

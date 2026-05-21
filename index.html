@@ -455,18 +455,22 @@
   .cmd-item .cmd-hint { font-size: 10px; color: var(--dim); font-family: ui-monospace, monospace; }
   .cmd-empty { padding: 18px; text-align: center; color: var(--dim); font-size: 13px; }
   .sortable-ghost { opacity: 0.4; background: var(--blue-bg) !important; border: 2px dashed var(--blue) !important; }
-	  .manual-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 1500; display: none; align-items: center; justify-content: center; }
-	  .manual-overlay.open { display: flex; }
-	  .manual-box { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; width: 720px; max-width: 94vw; max-height: 88vh; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 20px 60px rgba(0,0,0,0.5); }
-	  .manual-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 22px; border-bottom: 1px solid var(--border); flex-shrink: 0; }
-	  .manual-header h2 { font-size: 17px; margin: 0; }
-	  .manual-close { background: none; border: none; color: var(--dim); font-size: 24px; cursor: pointer; padding: 0; line-height: 1; }
-	  .manual-close:hover { color: var(--text); }
-	  .manual-body { overflow-y: auto; padding: 20px 24px; flex: 1; }
-	  .manual-body h3 { font-size: 15px; margin: 18px 0 8px; color: var(--blue); border-bottom: 1px solid var(--border); padding-bottom: 6px; }
-	  .manual-body h3:first-child { margin-top: 0; }
-	  .manual-body p,.manual-body li { font-size: 13px; line-height: 1.7; color: var(--text); }
-	  .manual-body ul { margin: 4px 0 10px; padding-left: 20px; }
+	  .manual-overlay, .install-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 1500; display: none; align-items: center; justify-content: center; }
+	  .manual-overlay.open, .install-overlay.open { display: flex; }
+	  .manual-box, .install-box { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; width: 720px; max-width: 94vw; max-height: 88vh; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 20px 60px rgba(0,0,0,0.5); }
+	  .manual-header, .install-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 22px; border-bottom: 1px solid var(--border); flex-shrink: 0; }
+	  .manual-header h2, .install-header h2 { font-size: 17px; margin: 0; }
+	  .manual-close, .install-close { background: none; border: none; color: var(--dim); font-size: 24px; cursor: pointer; padding: 0; line-height: 1; }
+	  .manual-close:hover, .install-close:hover { color: var(--text); }
+	  .manual-body, .install-body { overflow-y: auto; padding: 20px 24px; flex: 1; }
+	  .manual-body h3, .install-body h3 { font-size: 15px; margin: 18px 0 8px; color: var(--blue); border-bottom: 1px solid var(--border); padding-bottom: 6px; }
+	  .manual-body h3:first-child, .install-body h3:first-child { margin-top: 0; }
+	  .manual-body p,.manual-body li, .install-body p { font-size: 13px; line-height: 1.7; color: var(--text); }
+	  .manual-body ul, .install-body ul { margin: 4px 0 10px; padding-left: 20px; }
+	  .install-prompt { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 16px; font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace; font-size: 13px; line-height: 1.8; color: var(--text); white-space: pre-wrap; word-break: break-all; margin: 12px 0; position: relative; }
+	  .install-copy-btn { position: absolute; top: 10px; right: 12px; background: var(--blue); color: #fff; border: none; border-radius: 6px; padding: 5px 14px; font-size: 12px; cursor: pointer; font-weight: 600; }
+	  .install-copy-btn:hover { opacity: 0.85; }
+	  .install-copy-btn.copied { background: var(--green); }
 	  .manual-body ul li { margin-bottom: 4px; }
 	  .manual-body code { background: var(--bg); color: var(--orange); padding: 1px 6px; border-radius: 3px; font-size: 12px; font-family: ui-monospace,monospace; }
 	  .manual-body .kbd { display: inline-block; background: var(--bg); border: 1px solid var(--border); border-radius: 4px; padding: 1px 7px; font-size: 11px; font-family: ui-monospace,monospace; color: var(--text); margin: 0 2px; }
@@ -527,6 +531,7 @@
 
   <span class="rules-toggle" onclick="toggleRules()">📐 规则</span>
 	  <span class="rules-toggle" onclick="toggleManual()" style="margin-left:2px">📖 使用说明</span>
+	  <span class="rules-toggle" onclick="toggleInstall()" style="margin-left:2px">💻 一键安装</span>
   <select class="theme-select" onchange="changeTheme(this.value)" id="themeSelect">
     <option value="dark">🌑 Dark</option>
     <option value="light">☀️ Light</option>
@@ -707,6 +712,24 @@ function toggleManual() {
 function closeManual() {
   var el = document.getElementById("manualOverlay");
   if (el) el.classList.remove("open");
+}
+
+function toggleInstall() {
+  var el = document.getElementById("installOverlay");
+  if (el) el.classList.toggle("open");
+}
+function closeInstall() {
+  var el = document.getElementById("installOverlay");
+  if (el) el.classList.remove("open");
+}
+function copyInstallPrompt() {
+  var text = document.getElementById("installPromptText").innerText;
+  navigator.clipboard.writeText(text).then(function() {
+    var btn = document.getElementById("installCopyBtn");
+    btn.textContent = "已复制!";
+    btn.classList.add("copied");
+    setTimeout(function() { btn.textContent = "复制"; btn.classList.remove("copied"); }, 2000);
+  });
 }
 
 var _favThemes = [];
@@ -2559,6 +2582,23 @@ function filterCmd() {
   </div>
 </div>
 
+
+<div class="install-overlay" id="installOverlay" onclick="if(event.target===this)closeInstall()">
+  <div class="install-box">
+    <div class="install-header">
+      <h2>💻 一键安装 — 给CC用户的安装指南</h2>
+      <button class="install-close" onclick="closeInstall()">&times;</button>
+    </div>
+    <div class="install-body">
+      <h3>复制下面这段话，发给你的 Claude</h3>
+      <div class="install-prompt">
+        <button class="install-copy-btn" id="installCopyBtn" onclick="copyInstallPrompt()">复制</button>
+        <span id="installPromptText">帮我安装阿勋的CC面板4.0。克隆 https://github.com/1992686510qq-hash/Xun-CC-Panel-4.0 到本地，进入 dashboard 目录，运行 node server.js 启动，然后用浏览器打开 http://localhost:3100</span>
+      </div>
+      <p style="margin-top:12px;color:var(--dim);font-size:12px">你不需要手动操作 —— 把上面这段话发给 Claude Code，它会帮你完成克隆、安装、启动全部流程。如果有端口冲突，Claude 会自动帮你换端口。</p>
+    </div>
+  </div>
+</div>
 
 <div class="qr-overlay" id="qrOverlay" onclick="if(event.target===this)closeQR()">
   <div class="qr-box">
