@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" href="data:,">
-<title>阿勋的CC面板 4.0</title>
+<title>阿勋的CC面板 5.22</title>
 <style>
   :root {
     --bg: #0b0f14; --card-bg: #151b23; --border: #2a3341;
@@ -128,29 +128,30 @@
   }
   .theme-select { padding: 6px 10px; background: var(--card-bg); color: var(--text); border: 1px solid var(--border); border-radius: 8px; font-size: 12px; cursor: pointer; outline: none; }
   .theme-select:focus { border-color: var(--blue); }
+  .theme-select.faved { background: rgba(210,153,29,0.25) !important; }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif; background: var(--bg); color: var(--text); padding: 20px 24px; min-height: 100vh; }
 
-  .topbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; flex-wrap: wrap; gap: 10px; }
-  .logo { font-size: 20px; font-weight: 800; letter-spacing: -0.3px; display: flex; align-items: center; gap: 10px; }
-  .logo-badge { width: 36px; height: 36px; border-radius: 10px; background: linear-gradient(135deg, var(--blue), var(--purple)); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+  .topbar { display: flex; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 10px; }
+  .logo { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif; font-size: 24px; font-weight: 700; letter-spacing: 2px; display: flex; align-items: center; gap: 10px; }
+  .logo-badge { width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(135deg, var(--blue), var(--purple)); display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
   .logo-ver { font-size: 11px; font-weight: 600; letter-spacing: 0.5px; margin-left: 6px; padding: 2px 8px; border-radius: 99px; background: linear-gradient(135deg, var(--blue-bg), var(--purple-bg)); color: var(--blue); border: 1px solid var(--blue); opacity: 0.88; }
   .logo-sublink { font-size: 11px; font-weight: 400; color: var(--dim); margin-left: 14px; }
-  .ticker { font-size: 12px; color: var(--dim); font-variant-numeric: tabular-nums; display: flex; align-items: center; gap: 12px; }
+  .ticker { font-size: 12px; font-weight: 600; color: var(--dim); font-variant-numeric: tabular-nums; display: flex; align-items: center; gap: 12px; padding: 6px 16px; border: 1px solid var(--border); border-radius: 8px; }
   .ticker .badge { padding: 3px 10px; border-radius: 99px; font-size: 10px; font-weight: 600; }
   .badge-live { background: var(--green-bg); color: var(--green); }
   .badge-stale { background: var(--yellow-bg); color: var(--yellow); }
   .badge-sse { background: var(--purple-bg); color: var(--purple); }
 
   .toolbar { display: flex; gap: 8px; margin-bottom: 8px; flex-wrap: wrap; align-items: center; }
-  .view-btn { padding: 6px 16px; border: 1px solid var(--border); border-radius: 8px; background: transparent; color: var(--dim); cursor: pointer; font-size: 12px; font-weight: 600; transition: all 0.15s; }
+  .view-btn { padding: 6px 16px; border: 1px solid var(--border); border-radius: 8px; background: transparent; color: var(--dim); cursor: pointer; font-size: 12px; font-weight: 600; transition: all 0.15s; width: 150px; text-align: center; }
   .view-btn:hover { border-color: rgba(255,255,255,0.2); color: var(--text); }
   [data-theme="light"] .view-btn:hover { border-color: rgba(0,0,0,0.12); }
   .view-btn.active { background: var(--blue-bg); border-color: var(--blue); color: var(--blue); }
   .ad-banner { background: linear-gradient(135deg, var(--orange-bg), rgba(139,92,246,0.12)); border: 1px solid var(--orange); border-radius: 8px; padding: 10px 16px; margin: 0 0 14px; text-align: center; font-size: 13px; color: var(--orange); font-weight: 600; position: relative; display: none; }
   .ad-banner .ad-banner-close { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--dim); cursor: pointer; font-size: 18px; line-height: 1; padding: 2px 6px; }
 
-  .ad-img-banner { margin: 0 0 14px; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; display: none; }
+  .ad-img-banner { margin: 0 0 8px; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; display: none; }
   .ad-img-toggle { display: flex; align-items: center; gap: 8px; padding: 8px 16px; background: var(--card-bg); cursor: pointer; font-size: 12px; color: var(--dim); user-select: none; transition: color 0.15s; }
   .ad-img-toggle:hover { color: var(--text); }
   .ad-img-toggle .ad-img-arrow { transition: transform 0.2s; font-size: 10px; }
@@ -174,12 +175,12 @@
   .rules-panel .formula { font-family: ui-monospace, "Cascadia Code", monospace; background: var(--bg); padding: 2px 6px; border-radius: 3px; font-size: 11px; }
   .rules-toggle { padding: 6px 12px; border: 1px solid var(--border); border-radius: 8px; background: transparent; color: var(--dim); cursor: pointer; font-size: 12px; font-weight: 500; transition: all 0.15s; }
   .rules-toggle:hover { border-color: rgba(255,255,255,0.2); color: var(--text); }
-  .topbar-search { padding: 6px 14px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-size: 12px; outline: none; transition: border-color 0.15s; width: 280px; }
+  .topbar-search { padding: 6px 12px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-size: 12px; outline: none; transition: border-color 0.15s; width: 280px; }
   .topbar-search:focus { border-color: var(--blue); }
-  .topbar-search::placeholder { color: var(--dim); }
+  .topbar-search::placeholder { color: var(--dim); text-align: center; }
 
-  .stats { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
-  .stat { display: flex; flex-direction: column; gap: 2px; padding: 10px 16px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; min-width: 100px; cursor: pointer; transition: border-color 0.15s; }
+  .stats { display: flex; gap: 8px; margin-bottom: 8px; flex-wrap: wrap; }
+  .stat { display: flex; flex-direction: column; gap: 2px; padding: 10px 16px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; width: 97.3px; cursor: pointer; transition: border-color 0.15s; box-sizing: border-box; }
   .stat:hover { border-color: rgba(255,255,255,0.2); }
   [data-theme="light"] .stat:hover { border-color: rgba(0,0,0,0.15); }
   .stat .val { font-size: 26px; font-weight: 800; line-height: 1.1; display: flex; align-items: baseline; gap: 6px; }
@@ -196,7 +197,7 @@
   [data-theme="light"] .stat.active { border-color: rgba(0,0,0,0.2); }
   .stat .dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; margin-right: 4px; vertical-align: middle; }
 
-  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 14px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 8px; }
   .grid.compact { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 10px; }
 
   .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; padding: 14px 82px 14px 14px; cursor: pointer; transition: all 0.15s; position: relative; overflow: hidden; }
@@ -246,7 +247,7 @@
 
   /* Folder card */
   .folder-card { border-left: 3px solid var(--blue); cursor: default; padding-right: 14px !important; }
-  #folderArea { display: grid; grid-template-columns: repeat(auto-fill, minmax(420px, 1fr)); gap: 12px; margin-bottom: 15px; }
+  #folderArea { display: grid; grid-template-columns: repeat(auto-fill, minmax(420px, 1fr)); gap: 8px; margin-bottom: 8px; }
   .folder-card .folder-name { cursor: grab; }
   .folder-mini .fm-title { cursor: grab; }
   .card .name { cursor: grab; }
@@ -491,7 +492,7 @@
   @keyframes adScroll { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
   .ad-btn { flex-shrink: 0; background: linear-gradient(135deg, #f0883e, #d2991d); color: #000; border: none; border-radius: 14px; padding: 5px 16px; font-size: 12px; font-weight: 700; cursor: pointer; white-space: nowrap; transition: all 0.15s; }
   .ad-btn:hover { filter: brightness(1.15); transform: scale(1.03); }
-  .ad-email { flex-shrink: 0; background: linear-gradient(135deg, #f0883e, #d2991d); color: #000; border-radius: 12px; padding: 3px 12px; font-size: 11px; font-weight: 700; text-decoration: none; white-space: nowrap; transition: all 0.15s; }
+  .ad-email { flex-shrink: 0; background: linear-gradient(135deg, #f0883e, #d2991d); color: #000; border: none; border-radius: 14px; padding: 5px 16px; font-size: 12px; font-weight: 700; text-decoration: none; white-space: nowrap; transition: all 0.15s; width: 287px; text-align: center; }
   .ad-email:hover { filter: brightness(1.15); transform: scale(1.03); }
   .qr-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.65); z-index: 10001; justify-content: center; align-items: center; }
   .qr-overlay.show { display: flex; }
@@ -514,14 +515,16 @@
 
 <div class="ad-bar" id="adBar">
   <div class="ad-scroll"><div class="ad-scroll-inner" id="adText">接付费咨询 · CC项目定制开发 · Claude Code工作流搭建 · 邮箱 1992686510qq@gmail.com · 你的支持是我持续更新的动力 ❤</div></div>
+  <span style="display:flex;align-items:center;gap:12px;flex-shrink:0;min-width:446px;justify-content:flex-end">
   <a href="mailto:1992686510qq@gmail.com" class="ad-email">📧 1992686510qq@gmail.com</a>
   <button class="ad-btn" onclick="toggleQR()">❤ 支持独立创作者</button>
+  </span>
 </div>
 <div class="topbar">
-  <div class="logo"><span class="logo-badge">🚀</span>阿勋的CC面板<span class="logo-ver">5.22</span><span id="liveDot" style="margin-left:8px"></span><span class="ticker" id="clock"></span></div>
+  <div class="logo"><span class="logo-badge">🚀</span>阿勋的CC面板<span class="logo-ver">5.22</span><span id="liveDot" style="margin-left:8px"></span></div>
+  <span class="ticker" id="clock" style="margin-left:184.1px;margin-right:auto"></span>
+  <div class="ad-banner" id="adBannerEl" style="margin:0 0 0 auto;padding:4px 12px;font-size:13px;flex-shrink:0;width:446px;box-sizing:border-box;text-align:center;position:relative;top:5px"><span id="adBannerText"></span><button class="ad-banner-close" onclick="this.parentElement.style.display='none'">&times;</button></div>
 </div>
-
-<div class="ad-banner" id="adBannerEl"><span id="adBannerText"></span><button class="ad-banner-close" onclick="this.parentElement.style.display='none'">&times;</button></div>
 
 <div class="ad-img-banner" id="adImgBanner">
   <div class="ad-img-toggle" onclick="this.parentElement.classList.toggle('open')">
@@ -567,7 +570,6 @@
     <option value="synthwave">💜 Synthwave</option>
   </select>
   <span id="favThemeToggle" onclick="toggleFavTheme()" style="cursor:pointer;font-size:14px;user-select:none;flex-shrink:0" title="收藏/取消当前主题">☆</span>
-  <input type="text" class="topbar-search" id="search" placeholder="搜索会话标题..." oninput="render()" style="width:240px">
 </div>
 
 <div class="rules-panel" id="rulesPanel">
@@ -633,6 +635,7 @@
     <div class="stat done" data-filter="completed"><span class="val"><span id="nDone">0</span><svg class="spark" id="spDone" viewBox="0 0 52 16"></svg></span><span class="lbl">完成</span></div>
     <div class="stat err" data-filter="异常"><span class="val"><span id="nErr">0</span><svg class="spark" id="spErr" viewBox="0 0 52 16"></svg></span><span class="lbl">异常</span></div>
     <div class="stat arc" data-filter="归档"><span class="val"><span id="nArchive">0</span><svg class="spark" id="spArc" viewBox="0 0 52 16"></svg></span><span class="lbl">归档</span></div>
+    <input type="text" class="topbar-search" id="search" placeholder="搜索会话标题..." oninput="render()" style="width:446px;margin-left:auto;font-size:13px;text-align:center">
   </div>
 
   <div id="folderArea"></div>
@@ -740,9 +743,11 @@ function updateThemeOptions() {
   var html = '';
   // Favorites first
   if (favs.length > 0) {
+    html += '<option disabled>── 已收藏 ──</option>';
     for (var i = 0; i < favs.length; i++) {
-      html += '<option value="'+favs[i]+'">⭐ '+(_themeNames[favs[i]]||favs[i])+'</option>';
+      html += '<option value="'+favs[i]+'">'+(_themeNames[favs[i]]||favs[i])+'</option>';
     }
+    html += '<option disabled>──────────</option>';
   }
   // Then rest
   var allKeys = Object.keys(_themeNames);
@@ -756,11 +761,10 @@ function updateThemeOptions() {
 updateThemeOptions();
 (function() {
   var cur = localStorage.getItem("cc-dashboard-theme") || "dark";
-  var star = document.getElementById("favThemeToggle");
-  if (star) {
+  var sel = document.getElementById("themeSelect");
+  if (sel) {
     var isFav = _favThemes.indexOf(cur) !== -1;
-    star.textContent = isFav ? "⭐" : "☆";
-    star.title = isFav ? "取消收藏" : "收藏此主题";
+    if (isFav) sel.classList.add("faved"); else sel.classList.remove("faved");
   }
 })();
 
@@ -769,11 +773,10 @@ function changeTheme(name) {
   el.removeAttribute("data-theme");
   if (name && name !== "dark") el.setAttribute("data-theme", name);
   localStorage.setItem("cc-dashboard-theme", name);
-  var star = document.getElementById("favThemeToggle");
-  if (star) {
+  var sel = document.getElementById("themeSelect");
+  if (sel) {
     var isFav = _favThemes.indexOf(name) !== -1;
-    star.textContent = isFav ? "⭐" : "☆";
-    star.title = isFav ? "取消收藏" : "收藏此主题";
+    if (isFav) sel.classList.add("faved"); else sel.classList.remove("faved");
   }
 }
 
@@ -783,6 +786,11 @@ function toggleFavTheme() {
   if (idx === -1) _favThemes.push(cur); else _favThemes.splice(idx, 1);
   localStorage.setItem("cc-fav-themes", JSON.stringify(_favThemes));
   updateThemeOptions();
+  var sel = document.getElementById("themeSelect");
+  if (sel) {
+    var isFav = _favThemes.indexOf(cur) !== -1;
+    if (isFav) sel.classList.add("faved"); else sel.classList.remove("faved");
+  }
 }
 
 
@@ -2562,7 +2570,7 @@ function filterCmd() {
 <div class="manual-overlay" id="manualOverlay" onclick="if(event.target===this)closeManual()">
   <div class="manual-box">
     <div class="manual-header">
-      <h2>使用说明书 — CC多任务管理面板 4.0</h2>
+      <h2>使用说明书 — CC多任务管理面板 5.22</h2>
       <button class="manual-close" onclick="closeManual()">×</button>
     </div>
     <div class="manual-body">
