@@ -159,11 +159,7 @@ Dark / Light / Solarized Dark & Light / Monokai / Nord / Dracula / Tokyo Night /
 
 右键卡片 →「终端恢复」生成 BAT 脚本，Windows Terminal 一键恢复会话。右键→「VSCode 打开」直接在 VSCode 中打开会话目录。
 
-### 12. 广告栏与赞赏
-
-页面顶部滚动广告栏，右侧「❤ 支持独立创作者」按钮弹窗展示微信/支付宝赞赏码。广告内容支持远程 Gist 热更新。
-
-### 13. 资源统计
+### 12. 资源统计
 
 实时统计每个会话的累计 Token 消耗和 API 费用估算（按 Claude 模型定价）。顶部汇总栏显示全部会话的总 Token 消耗趋势。
 
