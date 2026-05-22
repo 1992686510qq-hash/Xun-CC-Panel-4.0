@@ -497,6 +497,7 @@
   .qr-img-wrap { width: 220px; height: 220px; margin: 0 auto 8px; border-radius: 12px; overflow: hidden; border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--dim); font-size: 13px; background: var(--bg); }
   .qr-img-wrap img { width: 100%; height: 100%; object-fit: contain; }
   .qr-note { font-size: 11px; color: var(--dim); margin: 4px 0 14px; }
+  .qr-msg { font-size: 12px; color: var(--orange); margin: 0 0 16px; padding: 8px 14px; background: var(--orange-bg); border-radius: 8px; line-height: 1.5; }
   .qr-close { background: var(--border); border: none; color: var(--text); padding: 7px 28px; border-radius: 8px; cursor: pointer; font-size: 13px; transition: all 0.15s; }
   .qr-close:hover { background: var(--red); color: #fff; }
 
@@ -2408,6 +2409,10 @@ function applyAdConfig(cfg) {
       localStorage.setItem("cc-qr-config", JSON.stringify(qrCfg));
     } catch(e) {}
   }
+  if (cfg.qrMessage) {
+    var msgEl = document.getElementById("qrRemoteMsg");
+    if (msgEl) { msgEl.textContent = cfg.qrMessage; msgEl.style.display = ""; }
+  }
 }
 
 // ============ Init ============
@@ -2655,6 +2660,7 @@ function filterCmd() {
       <img id="qrAlipayImg" src="" alt="支付宝收款码" style="display:none">
     </div>
     <p class="qr-note" id="qrNote">微信扫码即可赞赏</p>
+    <p class="qr-msg" id="qrRemoteMsg" style="display:none"></p>
     <button class="qr-close" onclick="closeQR()">关闭</button>
   </div>
 </div>
