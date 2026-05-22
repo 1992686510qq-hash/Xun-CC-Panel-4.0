@@ -2370,9 +2370,50 @@ function toast(msg) {
   el._tid = setTimeout(function() { el.classList.remove("on"); }, 2500);
 }
 
+// ============ Remote Ad Config ============
+var AD_CONFIG_URL = "https://gist.githubusercontent.com/1992686510qq-hash/a7879f0e7661b2c5ce1354874dbec0c3/raw/cc-panel-ad-config.json";
+var AD_CACHE_KEY = "cc-ad-config-cache";
+function loadRemoteAdConfig() {
+  // Try localStorage cache first (valid for 1 hour)
+  try {
+    var cache = JSON.parse(localStorage.getItem(AD_CACHE_KEY) || "{}");
+    if (cache.ts && (Date.now() - cache.ts < 3600000) && cache.data) {
+      applyAdConfig(cache.data);
+    }
+  } catch(e) {}
+
+  // Fetch latest from remote
+  fetch(AD_CONFIG_URL)
+    .then(function(r) { return r.ok ? r.json() : Promise.reject("fetch failed"); })
+    .then(function(cfg) {
+      applyAdConfig(cfg);
+      try { localStorage.setItem(AD_CACHE_KEY, JSON.stringify({ts: Date.now(), data: cfg})); } catch(e) {}
+    })
+    .catch(function() {}); // silent fail, keep existing content
+}
+function applyAdConfig(cfg) {
+  if (cfg.adText) {
+    var adEl = document.getElementById("adText");
+    if (adEl) adEl.textContent = cfg.adText;
+  }
+  if (cfg.email) {
+    var emailEl = document.querySelector(".ad-email");
+    if (emailEl) { emailEl.textContent = "📧 " + cfg.email; emailEl.href = "mailto:" + cfg.email; }
+  }
+  if (cfg.qrWechat || cfg.qrAlipay) {
+    try {
+      var qrCfg = JSON.parse(localStorage.getItem("cc-qr-config") || "{}");
+      if (cfg.qrWechat) qrCfg.wechat = cfg.qrWechat;
+      if (cfg.qrAlipay) qrCfg.alipay = cfg.qrAlipay;
+      localStorage.setItem("cc-qr-config", JSON.stringify(qrCfg));
+    } catch(e) {}
+  }
+}
+
 // ============ Init ============
 connectSSE();
 loadAll();
+loadRemoteAdConfig();
 // Fallback poll if SSE doesn't connect in 3s
 setTimeout(function() {
   if (!_sseConn) {

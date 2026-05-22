@@ -162,8 +162,6 @@ Dark / Light / Solarized Dark & Light / Monokai / Nord / Dracula / Tokyo Night /
 
 > 💚 微信赞赏 &nbsp;|&nbsp; 💙 支付宝
 
-二维码图片在 `assets/` 目录，可替换为你自己的。
-
 ### 13. 资源统计
 
 实时统计每个会话的累计 Token 消耗和 API 费用估算（按 Claude 模型定价）。顶部汇总栏显示全部会话的总 Token 消耗趋势。
