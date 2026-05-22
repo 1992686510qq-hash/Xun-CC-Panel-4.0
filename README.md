@@ -1,4 +1,4 @@
-# 阿勋的CC面板 4.0
+# 阿勋的CC面板 5.22
 
 > Claude Code 多会话实时监控面板，零 npm 依赖，纯 Node.js + 原生 JS 单文件前端。
 
@@ -19,7 +19,7 @@
 
 Claude Code 终端很强，但有一个致命盲区：**你完全看不到会话的全貌**。开着 5 个、10 个、30 个终端窗口，哪个在跑、哪个跑完了、哪个报错了——全靠手动 `ls` 和 `cat` 一个个翻 JSONL。子 Agent 派发出去就失联了，Token 烧了多少也不知道。
 
-**CC面板是全网第一个、也是目前唯一一个为此而生的 Dashboard。** 把它跑在本地，浏览器打开 `localhost:3100`，所有 CC 会话的状态、活跃度、Token 消耗、子 Agent 关系——全在一页。
+**CC面板是全网第一个、也是目前唯一一个为此而生的 Dashboard。** 把它跑在本地，浏览器打开 `localhost:5022`，所有 CC 会话的状态、活跃度、Token 消耗、子 Agent 关系——全在一页。
 
 ### 它解决的痛点
 
@@ -36,7 +36,7 @@ Claude Code 终端很强，但有一个致命盲区：**你完全看不到会话
 
 ### 诞生背景
 
-2026 年初我开始重度使用 Claude Code，日常并行 30+ 个会话。手动管理完全崩溃后，先写了扫描脚本，然后加了网页前端，再逐步加入文件夹组织、SSE 实时推送、拖拽排序、子 Agent 关系图谱、桌面通知、快照系统。经过 4 个大版本迭代，2026 年 5 月开源发布 4.0。
+2026 年初我开始重度使用 Claude Code，日常并行 30+ 个会话。手动管理完全崩溃后，先写了扫描脚本，然后加了网页前端，再逐步加入文件夹组织、SSE 实时推送、拖拽排序、子 Agent 关系图谱、桌面通知、快照系统。经过 4 个大版本迭代，2026 年 5 月开源发布 5.22。
 
 全网点进去搜「Claude Code 会话管理面板」，你找不到第二个。
 
@@ -48,7 +48,7 @@ Claude Code 终端很强，但有一个致命盲区：**你完全看不到会话
 git clone https://github.com/1992686510qq-hash/Xun-CC-Panel-4.0.git
 cd Xun-CC-Panel-4.0/dashboard
 node server.js
-# 浏览器打开 http://localhost:3100
+# 浏览器打开 http://localhost:5022
 ```
 
 **前置条件**：Node.js 已安装，`~/.claude/projects/` 下有 Claude Code 会话文件。
@@ -56,17 +56,17 @@ node server.js
 **端口和目录自定义**：
 ```bash
 # Windows PowerShell
-$env:CC_DASHBOARD_PORT="3100"; $env:CLAUDE_PROJECTS_DIR="D:\my-projects"; node server.js
+$env:CC_DASHBOARD_PORT="5022"; $env:CLAUDE_PROJECTS_DIR="D:\my-projects"; node server.js
 
 # Linux / macOS
-CC_DASHBOARD_PORT=3100 CLAUDE_PROJECTS_DIR=/home/me/projects node server.js
+CC_DASHBOARD_PORT=5022 CLAUDE_PROJECTS_DIR=/home/me/projects node server.js
 ```
 
 ### 🤖 Claude Code 用户看这里
 
 你是 CC 用户，想装这个面板？直接复制下面这句话发给你的 Claude：
 
-> 帮我安装阿勋的CC面板4.0。克隆 https://github.com/1992686510qq-hash/Xun-CC-Panel-4.0 到本地，进入 dashboard 目录，运行 node server.js 启动，浏览器打开 http://localhost:3100。如果有端口冲突就换一个。
+> 帮我安装阿勋的CC面板5.22。克隆 https://github.com/1992686510qq-hash/Xun-CC-Panel-4.0 到本地，进入 dashboard 目录，运行 node server.js 启动，浏览器打开 http://localhost:5022。如果有端口冲突就换一个。
 
 ---
 
@@ -215,7 +215,7 @@ dashboard/
 | 变量 | 默认值 | 说明 |
 |------|--------|------|
 | `CLAUDE_PROJECTS_DIR` | `~/.claude/projects` | 会话 JSONL 根目录 |
-| `CC_DASHBOARD_PORT` | `3100` | HTTP 监听端口 |
+| `CC_DASHBOARD_PORT` | `5022` | HTTP 监听端口 |
 
 ---
 

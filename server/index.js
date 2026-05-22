@@ -1,4 +1,4 @@
-// 阿勋的CC面板 4.0 — 缓存+增量版（端口31028），模块化架构
+// 阿勋的CC面板 5.22 — 缓存+增量版（端口31028），模块化架构
 var http = require("http");
 var fs = require("fs");
 var path = require("path");
@@ -132,10 +132,10 @@ scanner.scanSessions(shared.PROJECTS_DIR, []).then(function(initialSessions) {
   setInterval(function() { watcher.processChanges(); }, 30000);
 
   server.listen(shared.PORT, function() {
-    console.log("[阿勋的CC面板 4.0] CC多任务管理面板 → http://localhost:" + shared.PORT);
-    console.log("[阿勋的CC面板 4.0] " + initialSessions.length + " 主会话 + " + shared.subAgentCache.size + " 子Agent (" + runningCount + " 活跃中)");
-    console.log("[阿勋的CC面板 4.0] 实时推送: fs.watch + SSE /api/events");
-    console.log("[阿勋的CC面板 4.0] 快照: " + shared.SNAPSHOTS_DIR);
-    console.log("[阿勋的CC面板 4.0] Ctrl+C to stop");
+    console.log("[阿勋的CC面板 5.22] CC多任务管理面板 → http://localhost:" + shared.PORT);
+    console.log("[阿勋的CC面板 5.22] " + initialSessions.length + " 主会话 + " + shared.subAgentCache.size + " 子Agent (" + runningCount + " 活跃中)");
+    console.log("[阿勋的CC面板 5.22] 实时推送: fs.watch + SSE /api/events");
+    console.log("[阿勋的CC面板 5.22] 快照: " + shared.SNAPSHOTS_DIR);
+    console.log("[阿勋的CC面板 5.22] Ctrl+C to stop");
   });
 });
