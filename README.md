@@ -45,8 +45,8 @@ Claude Code 终端很强，但有一个致命盲区：**你完全看不到会话
 ## 一键安装
 
 ```bash
-git clone https://github.com/1992686510qq-hash/Xun-CC-Panel-4.0.git
-cd Xun-CC-Panel-4.0/dashboard
+git clone https://github.com/1992686510qq-hash/Xun-CC-Panel.git
+cd Xun-CC-Panel/dashboard
 node server.js
 # 浏览器打开 http://localhost:5022
 ```
@@ -66,7 +66,7 @@ CC_DASHBOARD_PORT=5022 CLAUDE_PROJECTS_DIR=/home/me/projects node server.js
 
 你是 CC 用户，想装这个面板？直接复制下面这句话发给你的 Claude：
 
-> 帮我安装阿勋的CC面板5.22。克隆 https://github.com/1992686510qq-hash/Xun-CC-Panel-4.0 到本地，进入 dashboard 目录，运行 node server.js 启动，浏览器打开 http://localhost:5022。如果有端口冲突就换一个。
+> 帮我安装阿勋的CC面板5.22。克隆 https://github.com/1992686510qq-hash/Xun-CC-Panel 到本地，进入 dashboard 目录，运行 node server.js 启动，浏览器打开 http://localhost:5022。如果有端口冲突就换一个。
 
 ---
 
