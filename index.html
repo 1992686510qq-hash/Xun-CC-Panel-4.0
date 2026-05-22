@@ -151,6 +151,15 @@
   .ad-banner { background: linear-gradient(135deg, var(--orange-bg), rgba(139,92,246,0.12)); border: 1px solid var(--orange); border-radius: 8px; padding: 10px 16px; margin: 0 0 14px; text-align: center; font-size: 13px; color: var(--orange); font-weight: 600; position: relative; display: none; }
   .ad-banner .ad-banner-close { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--dim); cursor: pointer; font-size: 18px; line-height: 1; padding: 2px 6px; }
 
+  .ad-img-banner { margin: 0 0 14px; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; display: none; }
+  .ad-img-toggle { display: flex; align-items: center; gap: 8px; padding: 8px 16px; background: var(--card-bg); cursor: pointer; font-size: 12px; color: var(--dim); user-select: none; transition: color 0.15s; }
+  .ad-img-toggle:hover { color: var(--text); }
+  .ad-img-toggle .ad-img-arrow { transition: transform 0.2s; font-size: 10px; }
+  .ad-img-banner.open .ad-img-arrow { transform: rotate(90deg); }
+  .ad-img-body { display: none; }
+  .ad-img-banner.open .ad-img-body { display: block; }
+  .ad-img-body img { width: 100%; display: block; border-top: 1px solid var(--border); }
+
   .searchbar input { width: 100%; max-width: 400px; padding: 8px 14px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-size: 13px; outline: none; transition: border-color 0.15s; }
   .searchbar input:focus { border-color: var(--blue); }
 
@@ -612,6 +621,15 @@
 </div>
 
 <div class="ad-banner" id="adBannerEl"><span id="adBannerText"></span><button class="ad-banner-close" onclick="this.parentElement.style.display='none'">&times;</button></div>
+
+<div class="ad-img-banner" id="adImgBanner">
+  <div class="ad-img-toggle" onclick="this.parentElement.classList.toggle('open')">
+    <span class="ad-img-arrow">▶</span> <span id="adImgLabel">广告</span>
+  </div>
+  <div class="ad-img-body">
+    <img id="adImgEl" src="" alt="" />
+  </div>
+</div>
 
 <!-- Sessions view -->
 <div id="view-sessions">
@@ -2392,6 +2410,16 @@ function applyAdConfig(cfg) {
     var bannerEl = document.getElementById("adBannerEl");
     var textEl = document.getElementById("adBannerText");
     if (bannerEl && textEl) { textEl.textContent = cfg.adBanner; bannerEl.style.display = "block"; }
+  }
+  if (cfg.adImage) {
+    var imgBanner = document.getElementById("adImgBanner");
+    var imgEl = document.getElementById("adImgEl");
+    var labelEl = document.getElementById("adImgLabel");
+    if (imgBanner && imgEl) {
+      imgEl.src = cfg.adImage;
+      if (labelEl && cfg.adImageLabel) labelEl.textContent = cfg.adImageLabel;
+      imgBanner.style.display = "block";
+    }
   }
 }
 
