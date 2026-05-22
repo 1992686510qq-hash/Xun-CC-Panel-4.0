@@ -51,6 +51,13 @@ var server = http.createServer(function(req, res) {
       return;
     }
 
+    // localStorage 迁移工具：从 3100 迁移到 5022
+    if (req.url === "/migrate") {
+      res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
+      res.end('<!DOCTYPE html><html><head><meta charset="utf-8"><title>迁移 localStorage 3100→5022</title><style>body{font-family:system-ui;max-width:500px;margin:80px auto;padding:20px;background:#0b0f14;color:#e0e0e0;text-align:center}h2{color:#ff6b35}.btn{display:inline-block;padding:14px 36px;background:#ff6b35;color:#fff;border:none;border-radius:10px;font-size:16px;cursor:pointer;font-weight:700;margin:16px 8px}.btn:hover{opacity:0.85}.ok{color:#4caf50}.err{color:#f44336}.info{font-size:13px;color:#888;margin-top:24px}#log{margin-top:16px;font-size:13px;color:#aaa}</style></head><body><h2>localStorage 迁移</h2><p>从 <code>localhost:3100</code> 迁移到 <code>localhost:5022</code></p><p><button class="btn" onclick="doMigrate()">开始迁移</button></p><div id="log"></div><p class="info">迁移完成后<a href="/">返回面板</a></p><script>function log(m,c){var d=document.getElementById("log");d.innerHTML+=m+"<br>";if(c)d.style.color=c}function doMigrate(){log("正在从 3100 读取…");var ifr=document.createElement("iframe");ifr.style.display="none";ifr.src="http://localhost:3100/";ifr.onload=function(){setTimeout(function(){try{var raw=ifr.contentDocument.body.textContent;var data=JSON.parse(raw);var keys=Object.keys(data);log("读取到 "+keys.length+" 个键");var ok=0,fail=0;for(var i=0;i<keys.length;i++){try{localStorage.setItem(keys[i],data[keys[i]]);ok++}catch(e){fail++;log(keys[i]+" 写入失败: "+e.message,"#f44336")}}log("迁移完成: "+ok+" 成功, "+fail+" 失败","#4caf50");log("3秒后跳转面板…");setTimeout(function(){location.href="/"},3000)}catch(e){log("读取失败，请确认 3100 端口的旧面板正在运行。错误: "+e.message,"#f44336")}},500)};document.body.appendChild(ifr)}</script></body></html>');
+      return;
+    }
+
     // Static files
     if (req.url === "/sortable.min.js") {
       var sortableFile = path.join(path.dirname(shared.HTML_FILE), "sortable.min.js");
