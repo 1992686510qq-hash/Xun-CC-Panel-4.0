@@ -148,6 +148,9 @@
   [data-theme="light"] .view-btn:hover { border-color: rgba(0,0,0,0.12); }
   .view-btn.active { background: var(--blue-bg); border-color: var(--blue); color: var(--blue); }
 
+  .ad-banner { background: linear-gradient(135deg, var(--orange-bg), rgba(139,92,246,0.12)); border: 1px solid var(--orange); border-radius: 8px; padding: 10px 16px; margin: 0 0 14px; text-align: center; font-size: 13px; color: var(--orange); font-weight: 600; position: relative; display: none; }
+  .ad-banner .ad-banner-close { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--dim); cursor: pointer; font-size: 18px; line-height: 1; padding: 2px 6px; }
+
   .searchbar input { width: 100%; max-width: 400px; padding: 8px 14px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-size: 13px; outline: none; transition: border-color 0.15s; }
   .searchbar input:focus { border-color: var(--blue); }
 
@@ -611,6 +614,8 @@
   </table>
   <p style="margin-top:10px;font-size:11px;color:var(--dim)">🤖×N = 有N个子Agent，点击可查看关系图；无此图标表示无子Agent</p>
 </div>
+
+<div class="ad-banner" id="adBannerEl"><span id="adBannerText"></span><button class="ad-banner-close" onclick="this.parentElement.style.display='none'">&times;</button></div>
 
 <!-- Sessions view -->
 <div id="view-sessions">
@@ -2401,17 +2406,14 @@ function applyAdConfig(cfg) {
     var emailEl = document.querySelector(".ad-email");
     if (emailEl) { emailEl.textContent = "📧 " + cfg.email; emailEl.href = "mailto:" + cfg.email; }
   }
-  if (cfg.qrWechat || cfg.qrAlipay) {
-    try {
-      var qrCfg = JSON.parse(localStorage.getItem("cc-qr-config") || "{}");
-      if (cfg.qrWechat) qrCfg.wechat = cfg.qrWechat;
-      if (cfg.qrAlipay) qrCfg.alipay = cfg.qrAlipay;
-      localStorage.setItem("cc-qr-config", JSON.stringify(qrCfg));
-    } catch(e) {}
-  }
   if (cfg.qrMessage) {
     var msgEl = document.getElementById("qrRemoteMsg");
     if (msgEl) { msgEl.textContent = cfg.qrMessage; msgEl.style.display = ""; }
+  }
+  if (cfg.adBanner) {
+    var bannerEl = document.getElementById("adBannerEl");
+    var textEl = document.getElementById("adBannerText");
+    if (bannerEl && textEl) { textEl.textContent = cfg.adBanner; bannerEl.style.display = ""; }
   }
 }
 
