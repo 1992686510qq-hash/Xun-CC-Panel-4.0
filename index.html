@@ -159,6 +159,7 @@
   .ad-img-body { display: none; }
   .ad-img-banner.open .ad-img-body { display: block; }
   .ad-img-body img { width: 100%; display: block; border-top: 1px solid var(--border); }
+  .ad-img-desc { padding: 10px 14px; font-size: 12px; color: var(--dim); line-height: 1.6; background: var(--card-bg); border-top: 1px solid var(--border); display: none; }
 
   .searchbar input { width: 100%; max-width: 400px; padding: 8px 14px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-size: 13px; outline: none; transition: border-color 0.15s; }
   .searchbar input:focus { border-color: var(--blue); }
@@ -628,6 +629,7 @@
   </div>
   <div class="ad-img-body">
     <img id="adImgEl" src="" alt="" />
+    <div class="ad-img-desc" id="adImgDesc"></div>
   </div>
 </div>
 
@@ -2418,6 +2420,8 @@ function applyAdConfig(cfg) {
     if (imgBanner && imgEl) {
       imgEl.src = cfg.adImage;
       if (labelEl && cfg.adImageLabel) labelEl.textContent = cfg.adImageLabel;
+      var descEl = document.getElementById("adImgDesc");
+      if (descEl && cfg.adImageDesc) { descEl.textContent = cfg.adImageDesc; descEl.style.display = ""; }
       imgBanner.style.display = "block";
     }
   }
