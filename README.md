@@ -4,6 +4,15 @@
 
 ---
 
+<p align="center">
+  <strong>❤ 支持独立创作者</strong><br>
+  <img src="assets/qr-wechat.png" width="160" alt="微信赞赏码" />
+  &nbsp;&nbsp;
+  <img src="assets/qr-alipay.jpg" width="160" alt="支付宝收款码" />
+</p>
+
+---
+
 ## 项目介绍
 
 ### 每个 Claude Code 用户都该装的面板
@@ -152,15 +161,7 @@ Dark / Light / Solarized Dark & Light / Monokai / Nord / Dracula / Tokyo Night /
 
 ### 12. 广告栏与赞赏
 
-页面顶部滚动广告栏，右侧「❤ 支持独立创作者」按钮弹窗展示微信/支付宝赞赏码。
-
-<p align="center">
-  <img src="assets/qr-wechat.png" width="230" alt="微信赞赏码" />
-  &nbsp;&nbsp;&nbsp;
-  <img src="assets/qr-alipay.jpg" width="230" alt="支付宝收款码" />
-</p>
-
-> 💚 微信赞赏 &nbsp;|&nbsp; 💙 支付宝
+页面顶部滚动广告栏，右侧「❤ 支持独立创作者」按钮弹窗展示微信/支付宝赞赏码。广告内容支持远程 Gist 热更新。
 
 ### 13. 资源统计
 
