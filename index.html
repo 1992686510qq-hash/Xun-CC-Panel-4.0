@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" href="data:,">
-<title>阿勋的CC面板 5.22</title>
+<title>阿勋的CC面板 4.0</title>
 <style>
   :root {
     --bg: #0b0f14; --card-bg: #151b23; --border: #2a3341;
@@ -147,7 +147,6 @@
   .view-btn:hover { border-color: rgba(255,255,255,0.2); color: var(--text); }
   [data-theme="light"] .view-btn:hover { border-color: rgba(0,0,0,0.12); }
   .view-btn.active { background: var(--blue-bg); border-color: var(--blue); color: var(--blue); }
-
   .ad-banner { background: linear-gradient(135deg, var(--orange-bg), rgba(139,92,246,0.12)); border: 1px solid var(--orange); border-radius: 8px; padding: 10px 16px; margin: 0 0 14px; text-align: center; font-size: 13px; color: var(--orange); font-weight: 600; position: relative; display: none; }
   .ad-banner .ad-banner-close { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--dim); cursor: pointer; font-size: 18px; line-height: 1; padding: 2px 6px; }
 
@@ -160,6 +159,7 @@
   .ad-img-banner.open .ad-img-body { display: block; }
   .ad-img-body img { width: 100%; display: block; border-top: 1px solid var(--border); }
   .ad-img-desc { padding: 10px 14px; font-size: 12px; color: var(--dim); line-height: 1.6; background: var(--card-bg); border-top: 1px solid var(--border); display: none; }
+
 
   .searchbar input { width: 100%; max-width: 400px; padding: 8px 14px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-size: 13px; outline: none; transition: border-color 0.15s; }
   .searchbar input:focus { border-color: var(--blue); }
@@ -366,8 +366,6 @@
   .empty.show { display: block; }
   .empty h3 { font-size: 16px; margin-bottom: 6px; color: var(--text); }
 
-  .notif-banner { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 10px 16px; margin-bottom: 14px; display: flex; align-items: center; justify-content: space-between; gap: 10px; font-size: 13px; }
-  .notif-banner .btn { padding: 5px 12px; border: 1px solid var(--blue); border-radius: 6px; background: transparent; color: var(--blue); cursor: pointer; font-size: 12px; white-space: nowrap; }
 
   .toast { position: fixed; bottom: 20px; right: 20px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 10px 16px; font-size: 13px; opacity: 0; transform: translateY(20px); transition: all 0.3s; pointer-events: none; z-index: 200; }
   .toast.on { opacity: 1; transform: translateY(0); }
@@ -506,7 +504,6 @@
   .qr-img-wrap { width: 220px; height: 220px; margin: 0 auto 8px; border-radius: 12px; overflow: hidden; border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--dim); font-size: 13px; background: var(--bg); }
   .qr-img-wrap img { width: 100%; height: 100%; object-fit: contain; }
   .qr-note { font-size: 11px; color: var(--dim); margin: 4px 0 14px; }
-  .qr-msg { font-size: 12px; color: var(--orange); margin: 0 0 16px; padding: 8px 14px; background: var(--orange-bg); border-radius: 8px; line-height: 1.5; }
   .qr-close { background: var(--border); border: none; color: var(--text); padding: 7px 28px; border-radius: 8px; cursor: pointer; font-size: 13px; transition: all 0.15s; }
   .qr-close:hover { background: var(--red); color: #fff; }
 
@@ -522,12 +519,18 @@
 </div>
 <div class="topbar">
   <div class="logo"><span class="logo-badge">🚀</span>阿勋的CC面板<span class="logo-ver">5.22</span><span id="liveDot" style="margin-left:8px"></span><span class="ticker" id="clock"></span></div>
-  <input type="text" class="topbar-search" id="search" placeholder="搜索会话标题..." oninput="render()">
 </div>
 
-<div class="notif-banner" id="notifBanner" style="display:none">
-  <span>开启桌面通知，任务完成时提醒你</span>
-  <button class="btn" onclick="requestNotif()">开启通知</button>
+<div class="ad-banner" id="adBannerEl"><span id="adBannerText"></span><button class="ad-banner-close" onclick="this.parentElement.style.display='none'">&times;</button></div>
+
+<div class="ad-img-banner" id="adImgBanner">
+  <div class="ad-img-toggle" onclick="this.parentElement.classList.toggle('open')">
+    <span class="ad-img-arrow">▶</span> <span id="adImgLabel">广告</span>
+  </div>
+  <div class="ad-img-body">
+    <img id="adImgEl" src="" alt="" />
+    <div class="ad-img-desc" id="adImgDesc"></div>
+  </div>
 </div>
 
 <div class="toolbar">
@@ -541,7 +544,6 @@
 
   <span class="rules-toggle" onclick="toggleRules()">📐 规则</span>
 	  <span class="rules-toggle" onclick="toggleManual()" style="margin-left:2px">📖 使用说明</span>
-	
   <select class="theme-select" onchange="changeTheme(this.value)" id="themeSelect">
     <option value="dark">🌑 Dark</option>
     <option value="light">☀️ Light</option>
@@ -566,6 +568,8 @@
   </select>
   <span id="favThemeToggle" onclick="toggleFavTheme()" style="cursor:pointer;font-size:14px;user-select:none;flex-shrink:0" title="收藏/取消当前主题">☆</span>
 </div>
+
+<input type="text" class="topbar-search" id="search" placeholder="搜索会话标题..." oninput="render()" style="width:100%;max-width:400px;margin-bottom:14px">
 
 <div class="rules-panel" id="rulesPanel">
   <h3>等级计算规则</h3>
@@ -619,18 +623,6 @@
     <tr><td>状态</td><td>运行中</td><td>已中断</td><td>完成</td><td>空闲</td><td>休眠</td><td>异常</td><td>归档</td></tr>
   </table>
   <p style="margin-top:10px;font-size:11px;color:var(--dim)">🤖×N = 有N个子Agent，点击可查看关系图；无此图标表示无子Agent</p>
-</div>
-
-<div class="ad-banner" id="adBannerEl"><span id="adBannerText"></span><button class="ad-banner-close" onclick="this.parentElement.style.display='none'">&times;</button></div>
-
-<div class="ad-img-banner" id="adImgBanner">
-  <div class="ad-img-toggle" onclick="this.parentElement.classList.toggle('open')">
-    <span class="ad-img-arrow">▶</span> <span id="adImgLabel">广告</span>
-  </div>
-  <div class="ad-img-body">
-    <img id="adImgEl" src="" alt="" />
-    <div class="ad-img-desc" id="adImgDesc"></div>
-  </div>
 </div>
 
 <!-- Sessions view -->
@@ -1388,15 +1380,14 @@ function showNotification(title, body) {
 function requestNotif() {
   if (!("Notification" in window)) { toast("浏览器不支持桌面通知"); return; }
   Notification.requestPermission().then(function(p) {
-    if (p === "granted") { _notifEnabled = true; document.getElementById("notifBanner").style.display = "none"; toast("桌面通知已开启"); }
+    if (p === "granted") { _notifEnabled = true; toast("桌面通知已开启"); }
     else toast("通知权限被拒绝");
   });
 }
 
 (function() {
   if ("Notification" in window && Notification.permission === "granted") _notifEnabled = true;
-  else if ("Notification" in window && Notification.permission === "default") document.getElementById("notifBanner").style.display = "flex";
-})();
+  })();
 
 // ============ Session View ============
 function sessionCardHTML(s) {
@@ -2378,7 +2369,6 @@ function toast(msg) {
 var AD_CONFIG_URL = "https://gist.githubusercontent.com/1992686510qq-hash/cbd6246474fcc524b55f699cacbd1c35/raw/cc-panel-ad-config.json";
 var AD_CACHE_KEY = "cc-ad-config-cache";
 function loadRemoteAdConfig() {
-  // Try localStorage cache first (valid for 1 hour)
   try {
     var cache = JSON.parse(localStorage.getItem(AD_CACHE_KEY) || "{}");
     if (cache.ts && (Date.now() - cache.ts < 3600000) && cache.data) {
@@ -2386,14 +2376,13 @@ function loadRemoteAdConfig() {
     }
   } catch(e) {}
 
-  // Fetch latest from remote
   fetch(AD_CONFIG_URL)
     .then(function(r) { return r.ok ? r.json() : Promise.reject("fetch failed"); })
     .then(function(cfg) {
       applyAdConfig(cfg);
       try { localStorage.setItem(AD_CACHE_KEY, JSON.stringify({ts: Date.now(), data: cfg})); } catch(e) {}
     })
-    .catch(function() {}); // silent fail, keep existing content
+    .catch(function() {});
 }
 function applyAdConfig(cfg) {
   if (cfg.adText) {
@@ -2402,7 +2391,15 @@ function applyAdConfig(cfg) {
   }
   if (cfg.email) {
     var emailEl = document.querySelector(".ad-email");
-    if (emailEl) { emailEl.textContent = "📧 " + cfg.email; emailEl.href = "mailto:" + cfg.email; }
+    if (emailEl) { emailEl.textContent = "\ud83d\udce7 " + cfg.email; emailEl.href = "mailto:" + cfg.email; }
+  }
+  if (cfg.qrWechat || cfg.qrAlipay) {
+    try {
+      var qrCfg = JSON.parse(localStorage.getItem("cc-qr-config") || "{}");
+      if (cfg.qrWechat) qrCfg.wechat = cfg.qrWechat;
+      if (cfg.qrAlipay) qrCfg.alipay = cfg.qrAlipay;
+      localStorage.setItem("cc-qr-config", JSON.stringify(qrCfg));
+    } catch(e) {}
   }
   if (cfg.qrMessage) {
     var msgEl = document.getElementById("qrRemoteMsg");
@@ -2429,8 +2426,8 @@ function applyAdConfig(cfg) {
 
 // ============ Init ============
 connectSSE();
-loadRemoteAdConfig();
 loadAll();
+loadRemoteAdConfig();
 // Fallback poll if SSE doesn't connect in 3s
 setTimeout(function() {
   if (!_sseConn) {
@@ -2566,7 +2563,7 @@ function filterCmd() {
 <div class="manual-overlay" id="manualOverlay" onclick="if(event.target===this)closeManual()">
   <div class="manual-box">
     <div class="manual-header">
-      <h2>使用说明书 — CC多任务管理面板 5.22</h2>
+      <h2>使用说明书 — CC多任务管理面板 4.0</h2>
       <button class="manual-close" onclick="closeManual()">×</button>
     </div>
     <div class="manual-body">
@@ -2655,7 +2652,6 @@ function filterCmd() {
       <img id="qrAlipayImg" src="" alt="支付宝收款码" style="display:none">
     </div>
     <p class="qr-note" id="qrNote">微信扫码即可赞赏</p>
-    <p class="qr-msg" id="qrRemoteMsg" style="display:none"></p>
     <button class="qr-close" onclick="closeQR()">关闭</button>
   </div>
 </div>
