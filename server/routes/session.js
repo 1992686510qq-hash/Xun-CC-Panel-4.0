@@ -1,5 +1,4 @@
 var fs = require("fs");
-var fsp = fs.promises;
 var path = require("path");
 var shared = require("../shared");
 var scanner = require("../scanner");

@@ -1,7 +1,6 @@
 var path = require("path");
 var shared = require("../shared");
 var scanner = require("../scanner");
-var pricing = require("../pricing");
 
 function makeOpenRouter() {
   return function handle(req, res) {

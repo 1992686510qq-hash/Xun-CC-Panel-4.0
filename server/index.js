@@ -1,4 +1,4 @@
-// 阿勋的CC面板 5.22 — 缓存+增量版（端口31028），模块化架构
+// 阿勋的CC面板 5.22 — 缓存+增量版（端口5022），模块化架构
 var http = require("http");
 var fs = require("fs");
 var path = require("path");

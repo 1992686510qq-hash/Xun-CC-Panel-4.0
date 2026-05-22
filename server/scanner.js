@@ -287,7 +287,7 @@ async function scanSessions(dir, results, parentSessionId) {
           try {
             var st = await fsp.stat(full);
             info.fileMtimeMs = st.mtimeMs;
-            info._fileSize = st.size;
+            info.fileSize = st.size;
           } catch (e) {}
         }
       } else {
