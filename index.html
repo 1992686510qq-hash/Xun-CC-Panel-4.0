@@ -142,7 +142,7 @@
   .badge-stale { background: var(--yellow-bg); color: var(--yellow); }
   .badge-sse { background: var(--purple-bg); color: var(--purple); }
 
-  .toolbar { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; align-items: center; }
+  .toolbar { display: flex; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; align-items: center; }
   .view-btn { padding: 6px 16px; border: 1px solid var(--border); border-radius: 8px; background: transparent; color: var(--dim); cursor: pointer; font-size: 12px; font-weight: 600; transition: all 0.15s; }
   .view-btn:hover { border-color: rgba(255,255,255,0.2); color: var(--text); }
   [data-theme="light"] .view-btn:hover { border-color: rgba(0,0,0,0.12); }
@@ -567,9 +567,8 @@
     <option value="synthwave">💜 Synthwave</option>
   </select>
   <span id="favThemeToggle" onclick="toggleFavTheme()" style="cursor:pointer;font-size:14px;user-select:none;flex-shrink:0" title="收藏/取消当前主题">☆</span>
+  <input type="text" class="topbar-search" id="search" placeholder="搜索会话标题..." oninput="render()" style="width:240px">
 </div>
-
-<input type="text" class="topbar-search" id="search" placeholder="搜索会话标题..." oninput="render()" style="width:100%;max-width:400px;margin-bottom:14px">
 
 <div class="rules-panel" id="rulesPanel">
   <h3>等级计算规则</h3>
