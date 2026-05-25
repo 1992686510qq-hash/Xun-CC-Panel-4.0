@@ -218,7 +218,6 @@
   .top-right .btn-sm { font-size: 11px; padding: 3px 10px; width: 100%; box-sizing: border-box; text-align: center; }
   .top-right .btn-sm.btn-del, .top-right .btn-sm.btn-folder, .top-right .btn-sm.btn-copy { padding: 3px 10px; border-color: var(--border); }
   .card .name { font-weight: 600; font-size: 17px; line-height: 1.4; flex: 1; color: var(--text); }
-  .card:hover .name-edit-btn { opacity: 1 !important; }
   .card .tag { display: inline-block; padding: 4px 12px; border-radius: 99px; font-size: 12px; font-weight: 700; white-space: nowrap; letter-spacing: 0.2px; flex-shrink: 0; }
   .tag-running { background: var(--orange-bg); color: var(--orange); }
   .tag-completed { background: var(--purple-bg); color: var(--purple); }
@@ -1414,7 +1413,7 @@ function sessionCardHTML(s) {
       '<button class="btn-sm btn-del grid-btn" data-action="hide" data-id="'+esc(s.id)+'" data-title="'+esc(s.title||s.id)+'" title="隐藏此会话">隐藏</button>'+
     '</div>'+
     '<div class="top">'+
-      '<span class="name">'+esc(displayTitle)+' <span style="font-size:9px;color:var(--dim);cursor:pointer;opacity:0;transition:opacity .15s" class="name-edit-btn" onclick="event.stopPropagation();editSessionTitle(\''+esc(s.id)+'\',this)" title="编辑名称">✎</span></span>'+
+      '<span class="name" ondblclick="event.stopPropagation();editSessionTitle(\''+esc(s.id)+'\',this)" title="双击编辑名称">'+esc(displayTitle)+'</span>'+
     '</div>'+
     '<div class="info">'+
       '<span class="ic">🪙 '+tokenStr(totalTok)+'</span>'+
@@ -2377,10 +2376,15 @@ function toast(msg) {
 var AD_CONFIG_URL = "https://gist.githubusercontent.com/1992686510qq-hash/cbd6246474fcc524b55f699cacbd1c35/raw/cc-panel-ad-config.json";
 var AD_CACHE_KEY = "cc-ad-config-cache";
 function loadRemoteAdConfig() {
+  var staleCache = null;
   try {
     var cache = JSON.parse(localStorage.getItem(AD_CACHE_KEY) || "{}");
-    if (cache.ts && (Date.now() - cache.ts < 3600000) && cache.data) {
-      applyAdConfig(cache.data);
+    if (cache.data) {
+      if (cache.ts && (Date.now() - cache.ts < 3600000)) {
+        applyAdConfig(cache.data);
+      } else {
+        staleCache = cache.data;
+      }
     }
   } catch(e) {}
 
@@ -2390,7 +2394,9 @@ function loadRemoteAdConfig() {
       applyAdConfig(cfg);
       try { localStorage.setItem(AD_CACHE_KEY, JSON.stringify({ts: Date.now(), data: cfg})); } catch(e) {}
     })
-    .catch(function() {});
+    .catch(function() {
+      if (staleCache) applyAdConfig(staleCache);
+    });
 }
 function applyAdConfig(cfg) {
   if (cfg.adText) {
