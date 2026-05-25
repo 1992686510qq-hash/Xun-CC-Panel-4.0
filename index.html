@@ -126,7 +126,7 @@
     --green: #10b981; --red: #f43f5e; --blue: #818cf8; --yellow: #fbbf24; --purple: #c084fc; --orange: #fb923c;
     --green-bg: rgba(16,185,129,0.10); --red-bg: rgba(244,63,94,0.10); --blue-bg: rgba(129,140,248,0.10); --yellow-bg: rgba(251,191,36,0.10); --purple-bg: rgba(192,132,252,0.10); --orange-bg: rgba(251,146,60,0.10);
   }
-  .theme-select { padding: 6px 10px; background: var(--card-bg); color: var(--text); border: 1px solid var(--border); border-radius: 8px; font-size: 12px; cursor: pointer; outline: none; }
+  .theme-select { padding: 6px 12px; background: var(--card-bg); color: var(--text); border: 1px solid var(--border); border-radius: 8px; font-size: 12px; cursor: pointer; outline: none; line-height: 1.4; }
   .theme-select:focus { border-color: var(--blue); }
   .theme-select.faved { background: rgba(210,153,29,0.25) !important; }
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -144,7 +144,7 @@
   .badge-sse { background: var(--purple-bg); color: var(--purple); }
 
   .toolbar { display: flex; gap: 8px; margin-bottom: 8px; flex-wrap: wrap; align-items: center; }
-  .view-btn { padding: 6px 16px; border: 1px solid var(--border); border-radius: 8px; background: transparent; color: var(--dim); cursor: pointer; font-size: 12px; font-weight: 600; transition: all 0.15s; width: 150px; text-align: center; }
+  .view-btn { padding: 6px 16px; border: 1px solid var(--border); border-radius: 8px; background: transparent; color: var(--dim); cursor: pointer; font-size: 12px; font-weight: 600; transition: all 0.15s; width: 150px; text-align: center; line-height: 1.4; }
   .view-btn:hover { border-color: rgba(255,255,255,0.2); color: var(--text); }
   [data-theme="light"] .view-btn:hover { border-color: rgba(0,0,0,0.12); }
   .view-btn.active { background: var(--blue-bg); border-color: var(--blue); color: var(--blue); }
@@ -173,7 +173,7 @@
   .rules-panel th, .rules-panel td { padding: 3px 10px; text-align: left; border-bottom: 1px solid var(--border); font-size: 11px; }
   .rules-panel th { color: var(--dim); font-weight: 600; }
   .rules-panel .formula { font-family: ui-monospace, "Cascadia Code", monospace; background: var(--bg); padding: 2px 6px; border-radius: 3px; font-size: 11px; }
-  .rules-toggle { padding: 6px 12px; border: 1px solid var(--border); border-radius: 8px; background: transparent; color: var(--dim); cursor: pointer; font-size: 12px; font-weight: 500; transition: all 0.15s; }
+  .rules-toggle { padding: 6px 12px; border: 1px solid var(--border); border-radius: 8px; background: transparent; color: var(--dim); cursor: pointer; font-size: 12px; font-weight: 500; transition: all 0.15s; line-height: 1.4; }
   .rules-toggle:hover { border-color: rgba(255,255,255,0.2); color: var(--text); }
   .topbar-search { padding: 6px 12px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-size: 12px; outline: none; transition: border-color 0.15s; width: 280px; }
   .topbar-search:focus { border-color: var(--blue); }
@@ -546,7 +546,7 @@
   <button class="btn-sm" id="expandToggleBtn" onclick="toggleExpandAll()" title="展开所有文件夹">📂 全部展开</button>
 
   <span class="rules-toggle" onclick="toggleRules()">📐 规则</span>
-	  <span class="rules-toggle" onclick="toggleManual()" style="margin-left:2px">📖 使用说明</span>
+  <span class="rules-toggle" onclick="toggleManual()" style="margin-left:2px">📖 使用说明</span>
   <select class="theme-select" onchange="changeTheme(this.value)" id="themeSelect">
     <option value="dark">🌑 Dark</option>
     <option value="light">☀️ Light</option>
@@ -635,7 +635,7 @@
     <div class="stat done" data-filter="completed"><span class="val"><span id="nDone">0</span></span><span class="lbl">完成</span></div>
     <div class="stat err" data-filter="异常"><span class="val"><span id="nErr">0</span></span><span class="lbl">异常</span></div>
     <div class="stat arc" data-filter="归档"><span class="val"><span id="nArchive">0</span></span><span class="lbl">归档</span></div>
-    <input type="text" class="topbar-search" id="searchSessions" placeholder="搜索会话标题..." style="margin-left:auto;padding:10px 16px;width:444px">
+    <input type="text" class="topbar-search" id="searchSessions" placeholder="搜索会话标题..." style="margin-left:auto;padding:10px 16px;width:445.6px">
   </div>
 
   <div id="folderArea"></div>
