@@ -543,6 +543,7 @@
   <button class="view-btn" data-view="hidden" onclick="switchView('hidden')" id="hiddenViewBtn" style="display:none">👁 已隐藏 (<span id="hiddenCount">0</span>)</button>
   <button class="view-btn" data-view="hiddenFolders" onclick="switchView('hiddenFolders')" id="hiddenFoldersViewBtn" style="display:none">📁 隐藏文件夹 (<span id="hiddenFolderCount">0</span>)</button>
   <span style="flex:1"></span>
+  <input type="text" class="topbar-search" id="search" placeholder="搜索会话标题..." oninput="onSearchInput()" style="margin-right:8px">
   <button class="btn-sm" id="expandToggleBtn" onclick="toggleExpandAll()" title="展开所有文件夹">📂 全部展开</button>
 
   <span class="rules-toggle" onclick="toggleRules()">📐 规则</span>
@@ -635,7 +636,6 @@
     <div class="stat done" data-filter="completed"><span class="val"><span id="nDone">0</span></span><span class="lbl">完成</span></div>
     <div class="stat err" data-filter="异常"><span class="val"><span id="nErr">0</span></span><span class="lbl">异常</span></div>
     <div class="stat arc" data-filter="归档"><span class="val"><span id="nArchive">0</span></span><span class="lbl">归档</span></div>
-    <input type="text" class="topbar-search" id="search" placeholder="搜索会话标题..." oninput="render()" style="width:446px;margin-left:auto;font-size:13px;text-align:center">
   </div>
 
   <div id="folderArea"></div>
@@ -1798,8 +1798,16 @@ function renderAgents() {
 }
 
 // ============ View Switching ============
+function onSearchInput() {
+  if (_currentView === "hidden") renderHidden();
+  else if (_currentView === "hiddenFolders") renderHiddenFolders();
+  else if (_currentView === "ungrouped") renderUngrouped();
+  else render();
+}
+
 function switchView(view) {
   _currentView = view;
+  document.getElementById("search").value = "";
   document.querySelectorAll(".view-btn").forEach(function(b) { b.classList.toggle("active", b.dataset.view===view); });
   document.getElementById("view-sessions").style.display = view==="sessions" ? "" : "none";
   document.getElementById("view-agents").style.display = view==="agents" ? "" : "none";
@@ -1881,12 +1889,27 @@ function renderHidden() {
   var ids = {};
   for (var i = 0; i < _sessions.length; i++) { ids[_sessions[i].id] = _sessions[i]; }
 
+  var q = (document.getElementById("search").value || "").trim().toLowerCase();
+
   if (_hiddenSessions.length === 0) {
     list.innerHTML = '<div style="padding:40px;text-align:center;color:var(--dim)">暂无隐藏会话</div>';
     return;
   }
 
-  list.innerHTML = _hiddenSessions.map(function(hid) {
+  var filtered = _hiddenSessions;
+  if (q) {
+    filtered = _hiddenSessions.filter(function(hid) {
+      var s = ids[hid];
+      return s && (s.title||"").toLowerCase().indexOf(q) !== -1;
+    });
+  }
+
+  if (filtered.length === 0 && q) {
+    list.innerHTML = '<div style="padding:40px;text-align:center;color:var(--dim)">没有匹配的隐藏会话</div>';
+    return;
+  }
+
+  list.innerHTML = filtered.map(function(hid) {
     var s = ids[hid];
     if (!s) return '<div class="hidden-row" style="opacity:0.5"><span>会话已不存在: '+esc(hid)+'</span></div>';
     var totalTok = (s._itok||0)+(s._otok||0);
